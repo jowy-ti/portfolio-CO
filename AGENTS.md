@@ -103,8 +103,10 @@ outside it.
 - A VS Code save can drop `execution_count` from individual cells while keeping
   their outputs; `validate_notebook` then reports them as "not executed". Re-run
   `execute_notebook` instead of trusting the stored outputs.
-- Keep notebooks under a few MB. This directory is not a git repository, so
-  there is no VCS safety net: re-read a cell before deleting or rewriting it.
+- Keep notebooks under a few MB. This directory is a git repository
+  (`main`, one commit per finished section): the `.ipynb` files keep their
+  outputs, so diffs are unreadable — review with `list_cells` / `notebook_summary`
+  and re-read a cell before deleting or rewriting it.
 
 ## Section map
 
@@ -112,7 +114,7 @@ outside it.
 | --- | --- | --- | --- | --- |
 | 1 | A first look at maximum likelihood | 1.1–1.3 | `s01_mle_intro.ipynb` | done, reviewed |
 | 2 | Log-likelihood landscapes for simple models | 2.1–2.5 | `s02_landscapes.ipynb` | done, Explain hand-edit in progress (2.3) |
-| 3 | Convex sets | 3.1–3.3 | `s03_convex_sets.ipynb` | not started |
+| 3 | Convex sets | 3.1–3.3 | `s03_convex_sets.ipynb` | done, Explain drafted (hand-edit pending) |
 | 4 | Convex functions | 4.1–4.6 | `s04_convex_functions.ipynb` | not started |
 | 5 | Linear programming | 5.1–5.3 | `s05_linear_programming.ipynb` | not started |
 | 6 | Quadratic programming with linear constraints | 6.1–6.2 | `s06_qp_constraints.ipynb` | not started |
@@ -126,8 +128,32 @@ Section 1 is done: `notebooks/s01_mle_intro.ipynb` is executed, validated and
 reviewed. Section 2 is done: `notebooks/s02_landscapes.ipynb` is executed and
 validated (27 cells, 16 code, 0 error outputs, `language_info` 3.12.16, all 16
 code cells executed). Its `Explain` hand-editing has started — 2.3 is the
-user's wording, 2.1, 2.2, 2.4 and 2.5 are still the drafted text. Sections 3–9
-are not started; start one only when the user says so.
+user's wording, 2.1, 2.2, 2.4 and 2.5 are still the drafted text.
+
+Section 3 is done: `notebooks/s03_convex_sets.ipynb` is executed and validated
+(21 cells, 14 code, 0 error outputs, `language_info` 3.12.16, 1.3 MB). Its three
+`Explain` cells are drafted as full answers and await the user's hand-editing.
+Contents: 3.1 `segment_violations(membership, x, y, n)` plus five membership
+tests (disc, annulus, crescent, union of two disjoint discs, intersection of
+two overlapping discs) and deterministic witness pairs; 3.2 halfspace,
+pentagon, hull, ellipsoid, the three norm balls, the $p=1/2$ "ball", the 3-D
+simplex, an affine image of each and an indefinite $Q$; 3.3 the PSD cone
+boundary $z^2=xy$, PSD segments, the $\operatorname{tr}X=1$ slice and the
+$\det X\ge1$ set.
+
+Section 3 numbers, for reference when re-running: 3.1 failures 157/300 annulus,
+61/300 crescent, 162/300 union, 0/300 disc and intersection; witnesses outside
+$C$ for $0.251\le\lambda\le0.750$ (annulus), $0.206$–$0.794$ (crescent),
+$0.401$–$0.600$ (union); overlapping discs gap $0.7211>0.6$. 3.2 zero failures
+for every convex set and its image, $p=1/2$ fails 13/200 (16/200 after the map),
+$\sum\sqrt{|x_i|}=1.4142$ at the midpoint, affine residual $1.1\times10^{-16}$,
+indefinite $Q$ gives $4.5>1$ at $(3,0)$ with 93.5% of the segment outside. 3.3
+min eigenvalue over 200 000 combinations $9.286\times10^{-5}$, slice radius
+$0.500000000000$, min det over 400 000 combinations $1.004249515513$, and
+$\operatorname{diag}(2,0.4)/(0.4,2)$ with midpoint det $1.44$ for
+$\{\det X\le1\}$.
+
+Sections 4–9 are not started; start one only when the user says so.
 
 Note for section 2: a VS Code save on 2 Nov dropped `execution_count` on cells
 3, 18 and 19 while keeping their outputs, so `validate_notebook` reported "not
