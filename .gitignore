@@ -1,0 +1,8 @@
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+.jupyter_ystore.db
+.jupyter/
+.ipynb_checkpoints/
+# local MCP smoke artifacts
+notebooks/_*.ipynb

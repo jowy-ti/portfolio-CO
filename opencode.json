@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "jupyter": {
+        "type": "local",
+        "command": [
+          "pixi",
+          "run",
+          "python",
+          "-m",
+          "jupyter_mcp.server"
+        ]
+      }
+    }
+  }
+}
