@@ -62,7 +62,9 @@ outside it.
 - Solve in order. Keep `Task` / `Explore` / `Explain` visibly separated: code
   and plots answer `Task`/`Explore`, markdown answers `Explain`.
 - Keep `Explain` answers brief: a few sentences that answer the question, not a
-  restatement of the task.
+  restatement of the task. Aim at $700$–$1000$ characters (one to three short
+  paragraphs), the length of the section 2 answers; section 3's first drafts
+  were $2.5$–$2.8$k and had to be cut.
 - `Explain` must quote the numbers the notebook actually computes, e.g.
   $P(\hat\theta=1/2)=0.66,\,0.80,\,0.99$, not adjectives like "very frequent":
   if a code cell prints it, the answer should use it.
@@ -113,10 +115,10 @@ outside it.
 | Section | Title | Exercises | Notebook | Status |
 | --- | --- | --- | --- | --- |
 | 1 | A first look at maximum likelihood | 1.1–1.3 | `s01_mle_intro.ipynb` | done, reviewed |
-| 2 | Log-likelihood landscapes for simple models | 2.1–2.5 | `s02_landscapes.ipynb` | done, Explain hand-edit in progress (2.3) |
-| 3 | Convex sets | 3.1–3.3 | `s03_convex_sets.ipynb` | done, Explain drafted (hand-edit pending) |
-| 4 | Convex functions | 4.1–4.6 | `s04_convex_functions.ipynb` | not started |
-| 5 | Linear programming | 5.1–5.3 | `s05_linear_programming.ipynb` | not started |
+| 2 | Log-likelihood landscapes for simple models | 2.1–2.5 | `s02_landscapes.ipynb` | done, 2.3 Explore has sliders; Explain hand-edit in progress |
+| 3 | Convex sets | 3.1–3.3 | `s03_convex_sets.ipynb` | done, Explain drafted (hand-edit pending); outputs of cells 8, 16 lost by a VS Code save — re-run |
+| 4 | Convex functions | 4.1–4.6 | `s04_convex_functions.ipynb` | done, Explain drafted (hand-edit pending) |
+| 5 | Linear programming | 5.1–5.3 | `s05_linear_programming.ipynb` | done, Explain drafted (hand-edit pending) |
 | 6 | Quadratic programming with linear constraints | 6.1–6.2 | `s06_qp_constraints.ipynb` | not started |
 | 7 | The Lagrangian and the dual function | 7.1–7.5 | `s07_lagrangian_dual.ipynb` | not started |
 | 8 | Strong duality and Slater's condition | 8.1–8.2 | `s08_strong_duality.ipynb` | not started |
@@ -126,9 +128,23 @@ outside it.
 
 Section 1 is done: `notebooks/s01_mle_intro.ipynb` is executed, validated and
 reviewed. Section 2 is done: `notebooks/s02_landscapes.ipynb` is executed and
-validated (27 cells, 16 code, 0 error outputs, `language_info` 3.12.16, all 16
-code cells executed). Its `Explain` hand-editing has started — 2.3 is the
-user's wording, 2.1, 2.2, 2.4 and 2.5 are still the drafted text.
+validated (30 cells, 18 code, 0 error outputs, `language_info` 3.12.16, all 18
+code cells executed, 1.4 MB). Its `Explain` hand-editing has started — 2.3 is
+the user's wording, 2.1, 2.2, 2.4 and 2.5 are still the drafted text. `Explain`
+cells are at indices 7, 12, 19, 24, 29.
+
+2.3 `Explore` ("vary $m$ and the true parameter") is answered by three cells
+after the 2×2 panel (markdown 16, code 17, code 18). Cell 17 measures the
+overlay error over $\hat\theta\pm2\,\mathrm{se}$ on a grid of $m$ and of the
+true parameter: log-log slopes $-1.540$ (Poisson) and $-1.576$ (exponential)
+against the $-3/2$ of the cubic term, exactly $0$ for the Gaussian, Poisson
+error $0.00717\to0.00193$ as the true $\lambda$ goes $1\to10$ at $m=60$, and
+exponential error identical to 12 digits for $\lambda=0.5\ldots4$ (scale
+family). Cell 18 is the `ipywidgets` panel (sliders for $m$, both $\lambda$s,
+$\theta$, $\mu$, $\sigma$); it re-seeds on every redraw and its saved output is
+only the widget state, so the figure appears only when the cell runs. Both new
+cells use their own `default_rng`, so the notebook-level `rng` stream and the
+2.4/2.5 numbers are unchanged.
 
 Section 3 is done: `notebooks/s03_convex_sets.ipynb` is executed and validated
 (21 cells, 14 code, 0 error outputs, `language_info` 3.12.16, 1.3 MB). Its three
@@ -153,10 +169,75 @@ $0.500000000000$, min det over 400 000 combinations $1.004249515513$, and
 $\operatorname{diag}(2,0.4)/(0.4,2)$ with midpoint det $1.44$ for
 $\{\det X\le1\}$.
 
-Sections 4–9 are not started; start one only when the user says so.
+Section 4 is done: `notebooks/s04_convex_functions.ipynb` is executed and
+validated (34 cells, 21 code, 0 error outputs, `language_info` 3.12.16, 2.7 MB).
+Its six `Explain` cells are drafted and await the user's hand-editing; they are
+at indices 6, 12, 18, 23, 28, 33. Three widget cells (5, the $a$ of $x^a$; 17,
+the $z$ of the $-\log\det$ slice; 22, the $a$ of the eigenvalue slice) save only
+widget state, so each has a static small-multiples panel next to it and the
+artifact shows the Explore without re-running.
+
+Contents: 4.1 chords, tangents, epigraph and the $f''$ sign for $x^a$; 4.2
+surfaces plus $\lambda_{\min}(H_f)$ colouring with the kinks masked; 4.3 the
+$-\log\det$ slice and the ray formula of [CO 8.3]; 4.4 the eigenvalue surfaces
+and their 20-plane envelope; 4.5 $\operatorname{tr}(SX)$ on the PSD cone and
+$h=-\log\det X+\operatorname{tr}(SX)$; 4.6 the [CO 9] rules and Jensen.
+
+Section 4 numbers, for reference when re-running: 4.1 $f''$ for
+$a=-1,0,0.5,1,2$ ranges over $[0.25,31.25]$, $0$, $[-0.988,-0.088]$, $0$, $2$
+(convex, both, concave, both, convex). 4.2 masked kinks 81/1681 points
+($\|x\|_1$), 81 ($\|x\|_\infty$), 41 ($\max$), 1 (origin, $\|x\|_2$);
+$\lambda_{\min}=0$ for the piecewise-linear functions and for the rank-one 2-D
+log-sum-exp, $1.423$ for $\|Ax+b\|_2^2$, $-1$ for $x_1x_2$; log-sum-exp minus
+$\max$ in $[0.0025,0.6931]=\log2$; the Hessian of $\pm\log$-sum-exp at $0$ has
+eigenvalues $\{0,0.5\}$ and $\{-0.5,0\}$. 4.3 formula error $7.8\times10^{-15}$,
+$g''\in[1.03,143.24]$, blow-ups at $t=-1/\lambda_i$ ($\lambda=-1.150,0.522$ for
+the 2×2 example). 4.4 closed form $a\pm\sqrt{x^2+y^2}$ to $4.4\times10^{-16}$,
+20-plane envelope gap $0.0244$, subadditivity slack $-3.4\times10^{-4}$,
+$\lambda_{\min}$ concavity slack $-2.1\times10^{-4}$, one-sided derivatives
+$\pm1$ at $X=I$. 4.5 minimiser $S^{-1}$ to $1.3\times10^{-8}$,
+$h=2.494696=\log\det S+2$, $\operatorname{tr}(SX)\in[1.9\times10^{-2},128.6]$
+over 2000 PSD pairs, Hessian spectra $[-4.53,-1.27,-0.38]$ in $\Theta=S^{-1}$,
+$[-1.68,-0.47,-0.14]$ in $\Sigma=S$, $[+0.005,+0.015,+0.053]$ at $\Sigma=4S$.
+4.6 worst segment-test violation $4.4\times10^{-16}$ for $\max$, Jensen
+$f(EX)=2.8577\le Ef(X)=3.5118$ with $EX=1.05$, $(h\circ g)''(0)=-2$.
+
+The 4.2 "undefined" points are found by comparing the finite-difference
+Hessian at $h$ and $h/2$; that test is what draws the kink lines, so do not
+replace it with a hard-coded mask.
+
+Section 5 is done: `notebooks/s05_linear_programming.ipynb` is executed and
+validated (24 cells, 16 code, 0 error outputs, `language_info` 3.12.16, 0.6 MB).
+Its three `Explain` cells are drafted and await the user's hand-editing; they
+are at indices 8, 15, 23. The 5.1 rotation and the 5.3 capacity panels each have
+a static small-multiples figure next to the `ipywidgets` panel, because a widget
+output saves only its state.
+
+Contents: 5.1 vertex enumeration, level lines, rotating $c$, unbounded and
+infeasible variants; 5.2 standard form with three slacks, the dual by hand,
+random feasible pairs and shadow prices; 5.3 the max-flow LP, the four cuts, the
+dual $\mu$ that is the cut indicator, and a larger random graph.
+
+Section 5 numbers, for reference when re-running: 5.1 vertices carry
+$0,4,9,11$, optimum $(3,1)$, threshold $\arctan3=71.565051^\circ$; unbounded
+status 3 (keep only $x_1\le3$), infeasible status 2 (add $x_1\ge5$), dropping
+$x_1\le3$ alone gives $p^\star=12$ at $(4,0)$. 5.2 dual
+$\min 4\lambda_1+6\lambda_2+3\lambda_3$ s.t.
+$\lambda_1+\lambda_2+\lambda_3\ge3$, $\lambda_1+3\lambda_2\ge2$; both values
+$11$; marginals $(0,0.667,2.333)$; the two `linprog` calls return different ends
+of the optimal face, $(2,0,1)$ and $(0,2/3,7/3)$; $+1$ on a RHS changes
+$p^\star$ by $(0,0,1)$, $-1$ by $(2,0.667,2.333)$; random pairs satisfy
+$c^\top x\le10.905<11.146\le b^\top\lambda$, smallest gap $2.199$. 5.3 flow
+$f=(4,2,1,3,3)=6$, cuts $6,7,9,8$, min cut $\{s\}$, $\mu=(1,1,0,0,0)$,
+`networkx` agrees; the 8-node/22-edge random graph gives flow = cut = $26$. The
+flow is not unique: $f_{12}=1,2,3$ with $f_{2t}=3,4,5$. No single removal of the
+three original 5.1 constraints unbounds the LP, so the notebook keeps only
+$x_1\le3$; the `Explain` qualifies this.
+
+Sections 6–9 are not started; start one only when the user says so.
 
 Note for section 2: a VS Code save on 2 Nov dropped `execution_count` on cells
-3, 18 and 19 while keeping their outputs, so `validate_notebook` reported "not
+3, 21 and 22 while keeping their outputs, so `validate_notebook` reported "not
 executed"; the notebook was re-executed from the same sources and the printed
 numbers are unchanged (2.1 `mu_hat = 0.8063`, 2.2 MSE `0.7417` vs `1.9596` at
 `m = 2`, 2.4 precision form `-641.141118`, 2.5 L1 `(2.4931, 0.4321)`). Re-run
