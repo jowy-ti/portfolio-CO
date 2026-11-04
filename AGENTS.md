@@ -116,7 +116,7 @@ outside it.
 | --- | --- | --- | --- | --- |
 | 1 | A first look at maximum likelihood | 1.1–1.3 | `s01_mle_intro.ipynb` | done, reviewed |
 | 2 | Log-likelihood landscapes for simple models | 2.1–2.5 | `s02_landscapes.ipynb` | done, 2.3 Explore has sliders; Explain hand-edit in progress |
-| 3 | Convex sets | 3.1–3.3 | `s03_convex_sets.ipynb` | done, Explain drafted (hand-edit pending); outputs of cells 8, 16 lost by a VS Code save — re-run |
+| 3 | Convex sets | 3.1–3.3 | `s03_convex_sets.ipynb` | done, Explain drafted (hand-edit pending) |
 | 4 | Convex functions | 4.1–4.6 | `s04_convex_functions.ipynb` | done, Explain drafted (hand-edit pending) |
 | 5 | Linear programming | 5.1–5.3 | `s05_linear_programming.ipynb` | done, Explain drafted (hand-edit pending) |
 | 6 | Quadratic programming with linear constraints | 6.1–6.2 | `s06_qp_constraints.ipynb` | not started |
