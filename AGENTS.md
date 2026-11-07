@@ -61,16 +61,14 @@ outside it.
   `## N.k Exercise title` block per exercise with its statement reference.
 - Solve in order. Keep `Task` / `Explore` / `Explain` visibly separated: code
   and plots answer `Task`/`Explore`, markdown answers `Explain`.
-- Keep `Explain` answers brief: a few sentences that answer the question, not a
-  restatement of the task. Aim at $700$–$1000$ characters (one to three short
-  paragraphs), the length of the section 2 answers; section 3's first drafts
-  were $2.5$–$2.8$k and had to be cut.
-- `Explain` must quote the numbers the notebook actually computes, e.g.
-  $P(\hat\theta=1/2)=0.66,\,0.80,\,0.99$, not adjectives like "very frequent":
-  if a code cell prints it, the answer should use it.
-- Qualify any claim that only holds on part of the grid or parameter range:
-  "the Gaussian overlay is accurate at $m=20$ for $\theta=1/2$" is true, "at
-  $m=20$ it looks Gaussian" is not.
+- Keep `Explain` answers short and conceptual: a few sentences that answer the
+  question directly, typically $300$–$600$ characters. Do not restate the task.
+- Do not justify an answer numerically and do not quote computed values or
+  parameter examples in `Explain`; the numbers belong in the code, its printed
+  output and the per-section reference notes below. State the reason, not the
+  evidence.
+- If a claim only holds on part of the parameter range, say so in one short
+  clause; do not expand it into a paragraph.
 - The user edits `Explain` cells by hand in VS Code. Re-read a markdown cell
   before changing it, and keep their wording where it is already correct.
 - When a task says "reproduce the example in [MLE x.y]", reproduce that
@@ -87,7 +85,18 @@ outside it.
 - Seed every random experiment (`rng = np.random.default_rng(2026)`) so the
   executed outputs are reproducible.
 - Plots must be labelled (axes, legend, title) and explained in the text; never
-  leave a figure the reader cannot interpret.
+  leave a figure the reader cannot interpret. Choose region fills against white
+  — grey `0.86` reads as background, the epigraph shading is tan `#e6d3a3`.
+  Label 3-D axes x, y and the quantity on the vertical axis, and label every
+  colourbar with the quantity it codes.
+- `ipywidgets` sliders use `continuous_update=False`: with continuous updates
+  the inline backend rebuilds the whole figure at every pixel and the panel
+  stutters. Build one `VBox([slider, widgets.Output()])` and redraw inside it
+  with `clear_output(wait=True)` (helper `show_slider` in s04), not `interact`.
+  A widget cell saves only its state, so pair it with a static small-multiples
+  figure. If `metadata.widgets` goes stale — its model ids no longer match the
+  `widget-view` outputs — a frontend renders the control more than once: delete
+  `metadata.widgets` from the `.ipynb` and re-execute.
 - No network access or external datasets; generate data synthetically.
 - The notebook `kernelspec` stays `python3`, which resolves to the pixi
   interpreter (3.12.x). A system Python run silently rewrites `language_info`;
@@ -118,8 +127,8 @@ outside it.
 | 2 | Log-likelihood landscapes for simple models | 2.1–2.5 | `s02_landscapes.ipynb` | done, 2.3 Explore has sliders; Explain hand-edit in progress |
 | 3 | Convex sets | 3.1–3.3 | `s03_convex_sets.ipynb` | done, Explain drafted (hand-edit pending) |
 | 4 | Convex functions | 4.1–4.6 | `s04_convex_functions.ipynb` | done, Explain drafted (hand-edit pending) |
-| 5 | Linear programming | 5.1–5.3 | `s05_linear_programming.ipynb` | done, Explain drafted (hand-edit pending) |
-| 6 | Quadratic programming with linear constraints | 6.1–6.2 | `s06_qp_constraints.ipynb` | not started |
+| 5 | Linear programming | 5.1–5.3 | `s05_linear_programming.ipynb` | done, Explain trimmed to brief answers |
+| 6 | Quadratic programming with linear constraints | 6.1–6.2 | `s06_qp_constraints.ipynb` | done, Explain drafted (hand-edit pending) |
 | 7 | The Lagrangian and the dual function | 7.1–7.5 | `s07_lagrangian_dual.ipynb` | not started |
 | 8 | Strong duality and Slater's condition | 8.1–8.2 | `s08_strong_duality.ipynb` | not started |
 | 9 | KKT conditions and solution methods | 9.1–9.4 | `s09_kkt_methods.ipynb` | not started |
@@ -170,18 +179,28 @@ $\operatorname{diag}(2,0.4)/(0.4,2)$ with midpoint det $1.44$ for
 $\{\det X\le1\}$.
 
 Section 4 is done: `notebooks/s04_convex_functions.ipynb` is executed and
-validated (34 cells, 21 code, 0 error outputs, `language_info` 3.12.16, 2.7 MB).
+validated (35 cells, 22 code, 0 error outputs, `language_info` 3.12.16, 3.3 MB).
 Its six `Explain` cells are drafted and await the user's hand-editing; they are
-at indices 6, 12, 18, 23, 28, 33. Three widget cells (5, the $a$ of $x^a$; 17,
-the $z$ of the $-\log\det$ slice; 22, the $a$ of the eigenvalue slice) save only
+at indices 6, 12, 18, 24, 29, 34. Three widget cells (5, the $a$ of $x^a$; 17,
+the $z$ of the $-\log\det$ slice; 23, the $a$ of the eigenvalue slice) save only
 widget state, so each has a static small-multiples panel next to it and the
 artifact shows the Explore without re-running.
 
 Contents: 4.1 chords, tangents, epigraph and the $f''$ sign for $x^a$; 4.2
 surfaces plus $\lambda_{\min}(H_f)$ colouring with the kinks masked; 4.3 the
 $-\log\det$ slice and the ray formula of [CO 8.3]; 4.4 the eigenvalue surfaces
-and their 20-plane envelope; 4.5 $\operatorname{tr}(SX)$ on the PSD cone and
-$h=-\log\det X+\operatorname{tr}(SX)$; 4.6 the [CO 9] rules and Jensen.
+in 2-D and 3-D plus their 20-plane envelope; 4.5 $\operatorname{tr}(SX)$ on the
+PSD cone and $h=-\log\det X+\operatorname{tr}(SX)$; 4.6 the [CO 9] rules and
+Jensen.
+
+4.4 uses the notebook variable $a$ for the slice ($X_{11}=a+x$, $X_{22}=a-x$,
+$X_{12}=X_{21}=y$); the static panels are drawn at $a=0.6$. Cell 21 defines
+`plot_lambda_surfaces(a)` and draws $\lambda_{\max}=a+r$, $\lambda_{\min}=a-r$
+with $r=\|(x,y)\|$, plus a red base contour at $\lambda_{\min}=0$; the slider cell
+23 calls the same function, so dragging $a$ redraws the 3-D panels (one redraw
+per release, ~$0.1$ s each). mathtext has no `smallmatrix`, so the slice is
+printed as $X_{ij}$ entries. Every 3-D axes is labelled x, y and the plotted
+quantity, and every colourbar is labelled too.
 
 Section 4 numbers, for reference when re-running: 4.1 $f''$ for
 $a=-1,0,0.5,1,2$ ranges over $[0.25,31.25]$, $0$, $[-0.988,-0.088]$, $0$, $2$
@@ -208,10 +227,18 @@ replace it with a hard-coded mask.
 
 Section 5 is done: `notebooks/s05_linear_programming.ipynb` is executed and
 validated (24 cells, 16 code, 0 error outputs, `language_info` 3.12.16, 0.6 MB).
-Its three `Explain` cells are drafted and await the user's hand-editing; they
-are at indices 8, 15, 23. The 5.1 rotation and the 5.3 capacity panels each have
-a static small-multiples figure next to the `ipywidgets` panel, because a widget
-output saves only its state.
+Its three `Explain` cells (8, 15, 23) are now short conceptual answers written
+to the brief-explanation rule; the numbers below are reference material only.
+The 5.1 rotation and the 5.3 capacity panels each have a static small-multiples
+figure next to the `ipywidgets` panel, because a widget output saves only its
+state; both slider cells follow the s04/s06 Output pattern (one
+`widgets.Output()`, redraw with `clear_output(wait=True)`,
+`continuous_update=False`). The 5.1 static cell (5) defines
+`optimal_face51(c)` with its own grid, so it does not depend on cell 4; the
+slider cell (6) highlights the optimal edge in red whenever $c$ is exactly
+normal to it — at $\theta=0$ on $x_1\le3$ and at $\theta=\arctan3$ on
+$x_1+3x_2\le6$, while $\theta=71.5^\circ$ correctly degenerates to the vertex
+(verified in a scratch kernel).
 
 Contents: 5.1 vertex enumeration, level lines, rotating $c$, unbounded and
 infeasible variants; 5.2 standard form with three slacks, the dual by hand,
@@ -234,7 +261,28 @@ flow is not unique: $f_{12}=1,2,3$ with $f_{2t}=3,4,5$. No single removal of the
 three original 5.1 constraints unbounds the LP, so the notebook keeps only
 $x_1\le3$; the `Explain` qualifies this.
 
-Sections 6–9 are not started; start one only when the user says so.
+Section 6 is done: `notebooks/s06_qp_constraints.ipynb` is executed and
+validated (16 cells, 10 code, 0 error outputs, `language_info` 3.12.16, 0.83 MB).
+Its two `Explain` cells are at indices 10 (6.1) and 15 (6.2), both short
+conceptual answers. The 6.1 code enumerates active sets, solves the
+equality-constrained KKT system and checks stationarity, primal/dual
+feasibility and complementary slackness against SLSQP; the 6.2 code solves the
+KKT system, compares with `trust-constr`, checks symmetry and inertia, and
+recovers the minimum-norm solution for $P=2I$, $q=0$. Cell 9 is the five-slider
+`ipywidgets` panel for $\lambda_1,\lambda_2,\theta,q_1,q_2$; cells 7 and 8 are
+the static small-multiples figures for moving $q$ and for $P$ becoming PSD.
+
+Section 6 numbers, for reference when re-running: 6.1 base $P$ has eigenvalues
+$1,3$ and the unconstrained minimiser $(4.2,2.4)$ is outside the pentagon; the
+constrained optimum is $(2.2625,1.4750)$ on $2x_1+x_2=6$ with multiplier
+$0.9605$ and value $-9.554967$. For the same rotated $P$ with $\lambda_2=0$ the
+optimum is $(2,2)$ with both $2x_1+x_2=6$ and $x_1+2x_2=6$ active. 6.2 KKT and `trust-constr` agree to $7.3\times10^{-11}$; KKT
+eigenvalues $[-2.3846,-0.7537,0.7429,1.2901,2.3043,4.2870,8.7646]$, so the
+matrix is symmetric indefinite; the $P=2I$, $q=0$ solution matches
+$A^\top(AA^\top)^{-1}b$ to $2.8\times10^{-17}$ and is orthogonal to
+$\operatorname{null}(A)$ to $1.5\times10^{-17}$.
+
+Sections 7–9 are not started; start one only when the user says so.
 
 Note for section 2: a VS Code save on 2 Nov dropped `execution_count` on cells
 3, 21 and 22 while keeping their outputs, so `validate_notebook` reported "not
