@@ -129,7 +129,7 @@ outside it.
 | 4 | Convex functions | 4.1–4.6 | `s04_convex_functions.ipynb` | done, Explain drafted (hand-edit pending) |
 | 5 | Linear programming | 5.1–5.3 | `s05_linear_programming.ipynb` | done, Explain trimmed to brief answers |
 | 6 | Quadratic programming with linear constraints | 6.1–6.2 | `s06_qp_constraints.ipynb` | done, Explain drafted (hand-edit pending) |
-| 7 | The Lagrangian and the dual function | 7.1–7.5 | `s07_lagrangian_dual.ipynb` | not started |
+| 7 | The Lagrangian and the dual function | 7.1–7.5 | `s07_lagrangian_dual.ipynb` | done, Explain drafted (hand-edit pending) |
 | 8 | Strong duality and Slater's condition | 8.1–8.2 | `s08_strong_duality.ipynb` | not started |
 | 9 | KKT conditions and solution methods | 9.1–9.4 | `s09_kkt_methods.ipynb` | not started |
 
@@ -282,7 +282,43 @@ matrix is symmetric indefinite; the $P=2I$, $q=0$ solution matches
 $A^\top(AA^\top)^{-1}b$ to $2.8\times10^{-17}$ and is orthogonal to
 $\operatorname{null}(A)$ to $1.5\times10^{-17}$.
 
-Sections 7–9 are not started; start one only when the user says so.
+Section 7 is done: `notebooks/s07_lagrangian_dual.ipynb` is executed and
+validated (23 cells, 11 code, 0 error outputs, `language_info` 3.12.16, 1.08 MB).
+Its five `Explain` cells are drafted and await the user's hand-editing; they are
+at indices 8 (7.1), 11 (7.2), 14 (7.3), 17 (7.4), 22 (7.5). Cell 21 is the
+two-slider (`a_1`,`a_2`) `ipywidgets` panel for the halfspace projection (path
+$x(\lambda)$ plus $g(\lambda)$ against $p^\star$); it is paired with the static
+small-multiples figure in cell 20 ($a$ outside / $a$ inside / the two-halfspace
+surface), because a widget output saves only its state. The widget cell follows
+the s04/s05/s06 Output pattern and its saved output leaves no `metadata.widgets`.
+
+Contents: 7.1 the surface $L(x,\lambda)$ over $x\in[-4,4],\lambda\in[0,3]$, the
+curves $L(\cdot,\lambda)$ with the extended objective $f_0+I_{\mathbb{R}_-}$, and
+the Explore ($\lambda=10,100$; $\lambda f_1$ vs the indicator). 7.2 the dual
+$g(\lambda)=\inf_x L$ numerically and analytically with $p^\star$, and each curve
+marked at its minimiser. 7.3 the set $G=\{(f_1,f_0)\}$ in the $(u,t)$ plane with
+supporting lines $t+\lambda u=g(\lambda)$, for the convex example, the non-convex
+$f_0=x^4-3x^2+x$ with the deep well feasible, and the same $f_0$ with a mirrored
+constraint that makes the gap visible. 7.4 the three formulations
+$1-x$, $-\log x$, $(1-x)^3$ of $x\ge1$: $L$-curves and duals with $p^\star$. 7.5
+the closed-form projection dual, verified against SLSQP for one and two halfspaces.
+
+Section 7 numbers, for reference when re-running: 7.1 $\max|g_{\rm num}-g_{\rm an}|
+=1.3\times10^{-15}$, $\sup_{\lambda\ge0}\lambda f_1=0$ on $x\le0$ and $+\infty$ on
+$x>0$. 7.2 $d^\star=g(1)=0=p^\star$, gap $0$. 7.3 convex gap $0$; deep-well-feasible
+$p^\star=d^\star=-3.5139$ (constraint inactive); mirrored case $p^\star=-1.0702$,
+$d^\star=-1.7573$, gap $0.6870$. 7.4 (a) $g=\lambda-\lambda^2/4$, (b)
+$g=\tfrac\lambda2-\tfrac\lambda2\log\tfrac\lambda2$, both with $\lambda^\star=2$,
+$d^\star=1$; (c) grid $g(4)$ runs $-4.6\times10^{2}\to-8.2\times10^{5}$ as the scan
+range widens, i.e.\ $-\infty$, so $d^\star=0$ and the gap is $1$. 7.5 outside
+$a=(3.5,2.5)$: $\lambda^\star=3$, $x^\star=(2,1)$, $g=p^\star=4.5$; inside
+$a=(0.8,0.5)$: $\lambda^\star=0$, $x^\star=a$, gap $0$; two halfspaces
+$C=[[1,1],[0,1]]$, $d=(3,2)$ give one active $\lambda^\star=(0.7,0)$ and vertex
+$\lambda^\star=(2,2)$, both matching the SLSQP projection to $\le3\times10^{-7}$
+with gap $\le10^{-13}$. (The two-halfspace Gram is $CC^\top$, not $C^\top C$; the
+test matrix was symmetric so it hid the error until an asymmetric pair exposed it.)
+
+Sections 8–9 are not started; start one only when the user says so.
 
 Note for section 2: a VS Code save on 2 Nov dropped `execution_count` on cells
 3, 21 and 22 while keeping their outputs, so `validate_notebook` reported "not
