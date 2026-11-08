@@ -130,8 +130,8 @@ outside it.
 | 5 | Linear programming | 5.1–5.3 | `s05_linear_programming.ipynb` | done, Explain trimmed to brief answers |
 | 6 | Quadratic programming with linear constraints | 6.1–6.2 | `s06_qp_constraints.ipynb` | done, Explain drafted (hand-edit pending) |
 | 7 | The Lagrangian and the dual function | 7.1–7.5 | `s07_lagrangian_dual.ipynb` | done, Explain drafted (hand-edit pending) |
-| 8 | Strong duality and Slater's condition | 8.1–8.2 | `s08_strong_duality.ipynb` | not started |
-| 9 | KKT conditions and solution methods | 9.1–9.4 | `s09_kkt_methods.ipynb` | not started |
+| 8 | Strong duality and Slater's condition | 8.1–8.2 | `s08_strong_duality.ipynb` | done, executed and validated |
+| 9 | KKT conditions and solution methods | 9.1–9.4 | `s09_kkt_methods.ipynb` | done, executed and validated |
 
 ## Current phase
 
@@ -318,7 +318,46 @@ $\lambda^\star=(2,2)$, both matching the SLSQP projection to $\le3\times10^{-7}$
 with gap $\le10^{-13}$. (The two-halfspace Gram is $CC^\top$, not $C^\top C$; the
 test matrix was symmetric so it hid the error until an asymmetric pair exposed it.)
 
-Sections 8–9 are not started; start one only when the user says so.
+Section 8 is done: `notebooks/s08_strong_duality.ipynb` is executed and validated
+(11 cells, 5 code, 0 error outputs, `language_info` 3.12.16, 0.69 MB). Its two
+`Explain` cells are at indices 6 (8.1) and 10 (8.2), both short conceptual
+answers. Contents: 8.1 the disc projection, closed-form dual, SLSQP checks of
+primal/dual agreement and KKT residuals, plus the value/multiplier sweep and the
+sensitivity $dp^*/d(r^2)=-\lambda^*$. 8.2(a) the zero-radius linear objective
+example (the stated $g(\lambda)=-1/(4\lambda)$ implies the notebook's $f_0=-x$),
+with an unattained dual supremum; 8.2(b) the perspective constraint
+$x^2/y\le0$, its feasible ray, the positive gap, and the sequence
+$(x,y)=(t,t^3)$ showing $g(\lambda)=0$ for every $\lambda\ge0$. Numerical
+optimization and Hessian PSD checks pass throughout.
+
+Section 8 numbers, for reference when re-running: 8.1 at $r=(0.5,1,3)$,
+$p^*=d^*=(3.013932,1.527864,0)$ and $\lambda^*=(3.472136,1.236068,0)$;
+the constraint becomes inactive at $r=\sqrt5$, and finite differences verify
+$dp^*/d(r^2)=-\lambda^*$. 8.2(a) $p^*=d^*=0$, but the dual supremum is not
+attained; 8.2(b) $p^*=1$, $d^*=0$, gap $1$, with SLSQP returning the feasible
+primal value $1$.
+
+Section 9 is done: `notebooks/s09_kkt_methods.ipynb` is executed and validated
+(22 cells, 10 code, 0 error outputs, `language_info` 3.12.16, 0.74 MB). Its four
+Explain answers are drafted at cells 4 (9.1), 10 (9.2), 15 (9.3) and 21 (9.4),
+pending the user's hand-editing. Contents: 9.1 the four KKT conditions for the
+exponential constraint and Exercise 7.1, including the changed bound; 9.2 the
+simplex projection, SLSQP solutions, recovered multipliers, four static target
+panels and an interactive target slider; 9.3 backtracking gradient descent,
+diagonal-norm steepest descent and Newton, with covariance and fixed-step
+explorations; 9.4 synthetic exponential regression with the hand-derived,
+finite-difference-checked residual Jacobian, gradient descent, Gauss–Newton,
+Adam, curve_fit comparison, mini-batches and Levenberg–Marquardt fallback.
+
+Section 9 numbers, for reference when re-running: 9.1 $(x^*,\lambda^*)=(0,1)$
+for both original problems and $(2,0)$ for Exercise 7.1 with $x\le3$. 9.2 at
+target $(2,2)$, $x^*=(1,1)$ and $\lambda^*=(2,0,0)$; target $(3,-1)$ activates
+$x_1+x_2=2$ and $x_2=0$, while $(-1,-1)$ projects to the origin. 9.3 Hessian
+condition number $18.2915$; backtracking takes 232, 131 and 1 steps for gradient,
+diagonal-norm steepest and Newton, respectively; the fixed-step stability
+boundary is $2/\lambda_{\max}=1.192236$. 9.4 curve_fit and all three full-batch
+methods agree at $\hat\theta=(2.94935,0.77473)$ with $J=0.51395859$; the alternate
+start makes a raw Gauss–Newton step fail, while LM damping converges.
 
 Note for section 2: a VS Code save on 2 Nov dropped `execution_count` on cells
 3, 21 and 22 while keeping their outputs, so `validate_notebook` reported "not
