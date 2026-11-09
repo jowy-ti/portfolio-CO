@@ -285,12 +285,13 @@ $\operatorname{null}(A)$ to $1.5\times10^{-17}$.
 Section 7 is done: `notebooks/s07_lagrangian_dual.ipynb` is executed and
 validated (23 cells, 11 code, 0 error outputs, `language_info` 3.12.16, 1.08 MB).
 Its five `Explain` cells are drafted and await the user's hand-editing; they are
-at indices 8 (7.1), 11 (7.2), 14 (7.3), 17 (7.4), 22 (7.5). Cell 21 is the
+at indices 8 (7.1), 11 (7.2), 14 (7.3), 17 (7.4), 22 (7.5). Cell 20 is the
 two-slider (`a_1`,`a_2`) `ipywidgets` panel for the halfspace projection (path
 $x(\lambda)$ plus $g(\lambda)$ against $p^\star$); it is paired with the static
-small-multiples figure in cell 20 ($a$ outside / $a$ inside / the two-halfspace
+small-multiples figure in cell 21 ($a$ outside / $a$ inside / the two-halfspace
 surface), because a widget output saves only its state. The widget cell follows
-the s04/s05/s06 Output pattern and its saved output leaves no `metadata.widgets`.
+the s04/s05/s06 Output pattern; its saved `VBox` widget state matches the view
+output and contains both slider models.
 
 Contents: 7.1 the surface $L(x,\lambda)$ over $x\in[-4,4],\lambda\in[0,3]$, the
 curves $L(\cdot,\lambda)$ with the extended objective $f_0+I_{\mathbb{R}_-}$, and
